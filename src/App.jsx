@@ -5,6 +5,25 @@ import MessageCard from './components/MessageCard'
 import SurpriseButton from './components/SurpriseButton'
 import { fetchMessagesFromGitHub } from './services/messagesApi'
 
+function pickRandomMessage(messagesList, current = '') {
+  if (messagesList.length === 0) {
+    return 'Aun no hay mensajes en tu JSON.'
+  }
+
+  if (messagesList.length === 1) {
+    return messagesList[0]
+  }
+
+  let nextMessage = current
+
+  while (nextMessage === current) {
+    const randomIndex = Math.floor(Math.random() * messagesList.length)
+    nextMessage = messagesList[randomIndex]
+  }
+
+  return nextMessage
+}
+
 function App() {
   const [messages, setMessages] = useState([])
   const [currentMessage, setCurrentMessage] = useState('Cargando tus mensajes...')
@@ -23,7 +42,7 @@ function App() {
         }
 
         setMessages(remoteMessages)
-        setCurrentMessage(remoteMessages[0] || 'Aun no hay mensajes en tu JSON.')
+        setCurrentMessage(pickRandomMessage(remoteMessages))
       } catch (loadError) {
         if (!isMounted) {
           return
@@ -45,6 +64,10 @@ function App() {
     }
   }, [])
 
+  const handleSurpriseClick = () => {
+    setCurrentMessage((previousMessage) => pickRandomMessage(messages, previousMessage))
+  }
+
   return (
     <main className="app-shell">
       <section className="app-frame">
@@ -55,7 +78,10 @@ function App() {
           <p className="status-text">Mensajes disponibles: {messages.length}</p>
         )}
         {!isLoading && error && <p className="status-text status-error">{error}</p>}
-        <SurpriseButton disabled={isLoading || messages.length === 0} />
+        <SurpriseButton
+          disabled={isLoading || messages.length === 0}
+          onClick={handleSurpriseClick}
+        />
       </section>
     </main>
   )
