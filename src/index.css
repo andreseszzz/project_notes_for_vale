@@ -1,11 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Nunito:wght@400;600;700&display=swap');
 
 :root {
+  --rose-100: #fff7fa;
+  --rose-200: #ffeef3;
+  --rose-300: #ffdbe6;
+  --warm-200: #ffe8dc;
+  --text-main: #4a3340;
+
   font-family: 'Nunito', sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color: #4a3340;
-  background: radial-gradient(circle at 15% 20%, #fff7fb 0%, #ffeef3 42%, #ffe6dd 100%);
+  color: var(--text-main);
+  background:
+    radial-gradient(circle at 8% 14%, var(--rose-100) 0%, rgba(255, 247, 250, 0) 38%),
+    radial-gradient(circle at 90% 78%, var(--warm-200) 0%, rgba(255, 232, 220, 0) 42%),
+    linear-gradient(135deg, var(--rose-200) 0%, #ffe8f1 46%, #ffe4d7 100%);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -19,4 +28,9 @@
 body {
   margin: 0;
   min-width: 320px;
+  color: var(--text-main);
+}
+
+#root {
+  min-height: 100vh;
 }

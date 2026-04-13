@@ -5,27 +5,13 @@ import MessageCard from './components/MessageCard'
 import SurpriseButton from './components/SurpriseButton'
 import { fetchMessagesFromGitHub } from './services/messagesApi'
 
-function pickRandomMessage(messagesList, current = '') {
-  if (messagesList.length === 0) {
-    return 'Aun no hay mensajes en tu JSON.'
-  }
-
-  if (messagesList.length === 1) {
-    return messagesList[0]
-  }
-
-  let nextMessage = current
-
-  while (nextMessage === current) {
-    const randomIndex = Math.floor(Math.random() * messagesList.length)
-    nextMessage = messagesList[randomIndex]
-  }
-
-  return nextMessage
+function pickRandomIndex(items) {
+  return Math.floor(Math.random() * items.length)
 }
 
 function App() {
   const [messages, setMessages] = useState([])
+  const [remainingMessages, setRemainingMessages] = useState([])
   const [currentMessage, setCurrentMessage] = useState('Cargando tus mensajes...')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
@@ -41,8 +27,20 @@ function App() {
           return
         }
 
+        if (remoteMessages.length === 0) {
+          setMessages([])
+          setRemainingMessages([])
+          setCurrentMessage('Aun no hay mensajes en tu JSON.')
+          return
+        }
+
+        const firstMessageIndex = pickRandomIndex(remoteMessages)
+        const firstMessage = remoteMessages[firstMessageIndex]
+        const nextRemainingMessages = remoteMessages.filter((_, index) => index !== firstMessageIndex)
+
         setMessages(remoteMessages)
-        setCurrentMessage(pickRandomMessage(remoteMessages))
+        setRemainingMessages(nextRemainingMessages)
+        setCurrentMessage(firstMessage)
       } catch (loadError) {
         if (!isMounted) {
           return
@@ -65,7 +63,18 @@ function App() {
   }, [])
 
   const handleSurpriseClick = () => {
-    setCurrentMessage((previousMessage) => pickRandomMessage(messages, previousMessage))
+    setRemainingMessages((previousRemainingMessages) => {
+      if (previousRemainingMessages.length === 0) {
+        return previousRemainingMessages
+      }
+
+      const nextMessageIndex = pickRandomIndex(previousRemainingMessages)
+      const nextMessage = previousRemainingMessages[nextMessageIndex]
+
+      setCurrentMessage(nextMessage)
+
+      return previousRemainingMessages.filter((_, index) => index !== nextMessageIndex)
+    })
   }
 
   return (
@@ -75,11 +84,11 @@ function App() {
         <MessageCard message={currentMessage} />
         {isLoading && <p className="status-text">Conectando con GitHub...</p>}
         {!isLoading && !error && (
-          <p className="status-text">Mensajes disponibles: {messages.length}</p>
+          <p className="status-text">Mensajes disponibles: {remainingMessages.length}</p>
         )}
         {!isLoading && error && <p className="status-text status-error">{error}</p>}
         <SurpriseButton
-          disabled={isLoading || messages.length === 0}
+          disabled={isLoading || remainingMessages.length === 0}
           onClick={handleSurpriseClick}
         />
       </section>

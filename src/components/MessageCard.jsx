@@ -1,7 +1,7 @@
 function MessageCard({ message }) {
   return (
     <article className="message-card" aria-live="polite">
-      <p>{message}</p>
+      <p className="message-text">{message}</p>
     </article>
   )
 }
