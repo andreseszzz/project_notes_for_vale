@@ -1,4 +1,4 @@
-const CACHE_NAME = 'notas-corazon-v2'
+const CACHE_NAME = 'notas-corazon-v3'
 const APP_SHELL_ASSETS = [
   './',
   './index.html',

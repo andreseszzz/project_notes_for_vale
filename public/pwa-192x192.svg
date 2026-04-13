@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" role="img" aria-label="Notas del Corazon">
   <defs>
     <linearGradient id="bg192" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0%" stop-color="#f9a5be" />
-      <stop offset="100%" stop-color="#f6b993" />
+      <stop offset="0%" stop-color="#8ccfc8" />
+      <stop offset="100%" stop-color="#87bfd5" />
     </linearGradient>
   </defs>
   <rect width="192" height="192" rx="48" fill="url(#bg192)" />
