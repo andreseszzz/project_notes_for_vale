@@ -1,11 +1,11 @@
 const CACHE_NAME = 'notas-corazon-v1'
 const APP_SHELL_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.webmanifest',
-  '/pwa-192x192.svg',
-  '/pwa-512x512.svg',
-  '/vite.svg',
+  './',
+  './index.html',
+  './manifest.webmanifest',
+  './pwa-192x192.svg',
+  './pwa-512x512.svg',
+  './vite.svg',
 ]
 
 self.addEventListener('install', (event) => {
