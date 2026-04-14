@@ -106,8 +106,95 @@
   color: #5b3442;
 }
 
+.photo-spotlight-block {
+  margin: 0.25rem 0 0;
+  position: relative;
+  z-index: 1;
+}
+
+.photo-spotlight-title {
+  margin: 0 0 0.65rem;
+  text-align: center;
+  color: #5f8f8a;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.photo-spotlight-button {
+  width: 100%;
+  border: 0;
+  padding: 0;
+  border-radius: 18px;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 180ms ease;
+  touch-action: pan-y;
+}
+
+.photo-spotlight-button:hover {
+  transform: translateY(-2px);
+}
+
+.photo-spotlight-button:focus-visible {
+  outline: 3px solid rgba(108, 169, 164, 0.45);
+  outline-offset: 2px;
+}
+
+.photo-stack-frame {
+  position: relative;
+  min-height: 285px;
+}
+
+.photo-stack-card {
+  position: absolute;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(140, 207, 200, 0.35);
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.photo-stack-card-next {
+  inset: 20px 16px 0;
+  box-shadow: 0 8px 16px rgba(84, 134, 127, 0.1);
+  opacity: 0.78;
+}
+
+.photo-stack-card-current {
+  inset: 0 0 18px;
+  box-shadow: 0 12px 22px rgba(84, 134, 127, 0.18);
+}
+
+.photo-spotlight-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+}
+
+.photo-dots {
+  margin-top: 0.45rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.42rem;
+}
+
+.photo-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(108, 169, 164, 0.38);
+}
+
+.photo-dot-active {
+  width: 18px;
+  background: rgba(108, 169, 164, 0.9);
+}
+
 .status-text {
-  margin: 0 0 1.05rem;
+  margin: 0.85rem 0 1.15rem;
   text-align: center;
   font-size: 0.9rem;
   color: #7f5063;
@@ -133,6 +220,7 @@
   transition: transform 180ms ease, box-shadow 180ms ease, filter 180ms ease;
   position: relative;
   z-index: 1;
+  margin-bottom: 0.2rem;
 }
 
 .surprise-button:enabled:hover {
@@ -167,5 +255,13 @@
   .message-card {
     min-height: 136px;
     padding: 1.25rem;
+  }
+
+  .photo-spotlight-image {
+    height: 100%;
+  }
+
+  .photo-stack-frame {
+    min-height: 238px;
   }
 }

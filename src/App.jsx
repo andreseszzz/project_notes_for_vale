@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import AppHeader from './components/AppHeader'
 import MessageCard from './components/MessageCard'
+import PhotoGrid from './components/PhotoGrid'
 import SurpriseButton from './components/SurpriseButton'
 import { fetchMessagesFromGitHub } from './services/messagesApi'
 
@@ -82,15 +83,16 @@ function App() {
       <section className="app-frame">
         <AppHeader />
         <MessageCard message={currentMessage} />
+        <SurpriseButton
+          disabled={isLoading || remainingMessages.length === 0}
+          onClick={handleSurpriseClick}
+        />
         {isLoading && <p className="status-text">Conectando con GitHub...</p>}
         {!isLoading && !error && (
           <p className="status-text">Mensajes disponibles: {remainingMessages.length}</p>
         )}
         {!isLoading && error && <p className="status-text status-error">{error}</p>}
-        <SurpriseButton
-          disabled={isLoading || remainingMessages.length === 0}
-          onClick={handleSurpriseClick}
-        />
+        <PhotoGrid />
       </section>
     </main>
   )
