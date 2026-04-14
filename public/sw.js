@@ -1,4 +1,4 @@
-const CACHE_NAME = 'notas-corazon-v3'
+const CACHE_NAME = 'notas-corazon-v4'
 const APP_SHELL_ASSETS = [
   './',
   './index.html',
@@ -42,18 +42,20 @@ self.addEventListener('fetch', (event) => {
   }
 
   event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) {
-        return cachedResponse
-      }
-
-      return fetch(request).then((networkResponse) => {
+    fetch(request)
+      .then((networkResponse) => {
         const responseToCache = networkResponse.clone()
         caches.open(CACHE_NAME).then((cache) => {
           cache.put(request, responseToCache)
         })
         return networkResponse
       })
-    }),
+      .catch(() => {
+        if (request.mode === 'navigate') {
+          return caches.match('./index.html')
+        }
+
+        return caches.match(request)
+      }),
   )
 })
