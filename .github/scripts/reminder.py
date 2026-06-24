@@ -1,36 +1,52 @@
 import json
 import os
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from datetime import datetime, timedelta
-import requests
 
 def send_email(to_email, subject, body):
-    api_key = os.environ.get('RESEND_API_KEY')
-    from_email = os.environ.get('USER_EMAIL')
+    user_email = os.environ.get('USER_EMAIL')
+    app_password = os.environ.get('GMAIL_APP_PASSWORD')
     
-    url = "https://api.resend.com/emails"
-    headers = {
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    data = {
-        "from": from_email,
-        "to": [to_email],
-        "subject": subject,
-        "html": f"<strong>{body}</strong>"
-    }
+    # Configuración del servidor SMTP de Gmail
+    smtp_server = "smtp.gmail.com"
+    smtp_port = 587
     
-    response = requests.post(url, headers=headers, json=data)
-    if response.status_code == 200:
-        print(f"Email sent successfully: {subject}")
-    else:
-        print(f"Error sending email: {response.text}")
+    # Crear el mensaje
+    message = MIMEMultipart()
+    message["From"] = user_email
+    message["To"] = to_email
+    message["Subject"] = subject
+    
+    # El cuerpo del mensaje en HTML para que se vea lindo
+    html_body = f"<div style='font-family: Arial, sans-serif; color: #4a3340; text-align: center; padding: 20px; border: 1px solid #f4fffd; border-radius: 15px; background-color: #fbfcfc;'><strong style='font-size: 18px;'>{body}</strong></div>"
+    message.attach(MIMEText(html_body, "html"))
+    
+    try:
+        # Conexión segura con Gmail
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls() # Iniciar cifrado TLS
+        server.login(user_email, app_password)
+        server.send_message(message)
+        server.quit()
+        print(f"Email sent successfully to {to_email}: {subject}")
+    except Exception as e:
+        print(f"Error sending email via Gmail: {e}")
 
 def main():
     partner_email = os.environ.get('PARTNER_EMAIL')
+    if not partner_email:
+        print("Error: PARTNER_EMAIL secret is missing")
+        return
     
     # Leer las fechas desde el JSON
-    with open('src/components/dates.json', 'r', encoding='utf-8') as f:
-        dates = json.load(f)
+    try:
+        with open('src/components/dates.json', 'r', encoding='utf-8') as f:
+            dates = json.load(f)
+    except Exception as e:
+        print(f"Error reading dates.json: {e}")
+        return
 
     today = datetime.now().date()
     tomorrow = today + timedelta(days=1)
