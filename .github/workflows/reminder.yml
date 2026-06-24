@@ -25,4 +25,5 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           USER_EMAIL: ${{ secrets.USER_EMAIL }}
           PARTNER_EMAIL: ${{ secrets.PARTNER_EMAIL }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
         run: python .github/scripts/reminder.py

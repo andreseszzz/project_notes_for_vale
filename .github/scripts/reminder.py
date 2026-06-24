@@ -16,6 +16,9 @@ def send_email(to_email, subject, body):
         print("CRITICAL ERROR: Secret 'GMAIL_APP_PASSWORD' is missing in GitHub Actions!")
         return
     
+    # Diagnóstico seguro (no expone la clave)
+    print(f"DEBUG: Secret 'GMAIL_APP_PASSWORD' found. Length: {len(app_password)} chars. Starts with: {app_password[0]}, ends with: {app_password[-1]}")
+    
     smtp_server = "smtp.gmail.com"
     smtp_port = 587
     
