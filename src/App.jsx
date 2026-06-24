@@ -4,6 +4,7 @@ import AppHeader from './components/AppHeader'
 import MessageCard from './components/MessageCard'
 import PhotoGrid from './components/PhotoGrid'
 import SurpriseButton from './components/SurpriseButton'
+import Calendar from './components/Calendar'
 import { fetchMessagesFromGitHub } from './services/messagesApi'
 
 function pickRandomIndex(items) {
@@ -92,6 +93,7 @@ function App() {
           <p className="status-text">Mensajes disponibles: {remainingMessages.length}</p>
         )}
         {!isLoading && error && <p className="status-text status-error">{error}</p>}
+        <Calendar />
         <PhotoGrid />
       </section>
     </main>
